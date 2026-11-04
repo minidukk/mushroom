@@ -15,7 +15,7 @@ def load_models():
 
     model_files = {
         "Decision Tree": "mushroom_decision_tree.joblib",
-        "Random Forest": "mushroom_random_forest.joblib",
+        "Naive Bayes": "mushroom_naive_bayes.joblib",
         "K Nearest Neighbor": "mushroom_knn.joblib"
     }
 
