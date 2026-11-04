@@ -16,7 +16,7 @@ def load_models():
     model_files = {
         "Decision Tree": "mushroom_decision_tree.joblib",
         "Naive Bayes": "mushroom_naive_bayes.joblib",
-        "K Nearest Neighbor": "mushroom_knn.joblib"
+        "K Nearest Neighbor": "mushroom_knn(22).joblib"
     }
 
     for name, filename in model_files.items():
@@ -212,6 +212,28 @@ if submitted:
     try:
         model = models[model_name]
 
+        # Lấy danh sách đặc trưng đã sử dụng khi huấn luyện
+        if hasattr(model, "feature_names_in_"):
+            feature_columns = list(model.feature_names_in_)
+
+        elif hasattr(model, "named_steps"):
+            preprocessor = model.named_steps["preprocessor"]
+
+            if hasattr(preprocessor, "feature_names_in_"):
+                feature_columns = list(preprocessor.feature_names_in_)
+            else:
+                raise ValueError(
+                    "Không tìm thấy danh sách đặc trưng đã huấn luyện."
+                )
+        else:
+            raise ValueError(
+                "Mô hình không lưu thông tin tên đặc trưng."
+            )
+
+        # Lọc các đặc trưng không sử dụng, ví dụ veil-type
+        sample = sample.reindex(columns=feature_columns)
+
+        # Dự đoán
         prediction = int(model.predict(sample)[0])
         probabilities = model.predict_proba(sample)[0]
         classes = model.classes_
@@ -237,6 +259,7 @@ if submitted:
         )
 
         st.write("Xác suất theo mô hình:")
+
         st.dataframe(
             probability_data[["Nhãn", "Xác suất (%)"]],
             hide_index=True,
@@ -245,4 +268,3 @@ if submitted:
 
     except Exception as e:
         st.error(f"Không thể dự đoán: {e}")
-
