@@ -16,7 +16,7 @@ def load_models():
     model_files = {
         "Decision Tree": "mushroom_decision_tree.joblib",
         "Naive Bayes": "mushroom_naive_bayes.joblib",
-        "K Nearest Neighbor": "mushroom_knn(22).joblib"
+        "K Nearest Neighbor": "mushroom_knn.joblib"
     }
 
     for name, filename in model_files.items():
@@ -68,101 +68,201 @@ options = {
     "habitat": ["g", "l", "m", "p", "u", "w", "d"]
 }
 
+feature_labels = {
+    "cap-shape": "Hình dạng mũ nấm",
+    "cap-surface": "Bề mặt mũ nấm",
+    "cap-color": "Màu sắc mũ nấm",
+    "bruises": "Bầm dập",
+    "odor": "Mùi",
+    "gill-attachment": "Kiểu gắn kết phiến nấm",
+    "gill-spacing": "Khoảng cách giữa các phiến nấm",
+    "gill-size": "Kích thước phiến nấm",
+    "gill-color": "Màu sắc phiến nấm",
+    "stalk-shape": "Hình dạng cuống nấm",
+    "stalk-root": "Hình dạng gốc cuống nấm",
+    "stalk-surface-above-ring": "Bề mặt cuống phía trên vòng",
+    "stalk-surface-below-ring": "Bề mặt cuống phía dưới vòng",
+    "stalk-color-above-ring": "Màu sắc cuống phía trên vòng",
+    "stalk-color-below-ring": "Màu sắc cuống phía dưới vòng",
+    "veil-type": "Kiểu màng nấm",
+    "veil-color": "Màu sắc màng nấm",
+    "ring-number": "Số lượng vòng trên cuống",
+    "ring-type": "Kiểu vòng trên cuống",
+    "spore-print-color": "Màu sắc bào tử",
+    "population": "Mật độ phân bố",
+    "habitat": "Môi trường sống"
+}
 
 labels = {
     "cap-shape": {
-        "b": "Bell", "c": "Conical", "x": "Convex",
-        "f": "Flat", "k": "Knobbed", "s": "Sunken"
+        "b": "Hình chuông",
+        "c": "Hình nón",
+        "x": "Lồi",
+        "f": "Phẳng",
+        "k": "Có núm",
+        "s": "Lõm"
     },
     "cap-surface": {
-        "f": "Fibrous", "g": "Grooves",
-        "y": "Scaly", "s": "Smooth"
+        "f": "Dạng sợi",
+        "g": "Có rãnh",
+        "y": "Có vảy",
+        "s": "Nhẵn"
     },
     "cap-color": {
-        "n": "Brown", "b": "Buff", "c": "Cinnamon",
-        "g": "Gray", "r": "Green", "p": "Pink",
-        "u": "Purple", "e": "Red", "w": "White",
-        "y": "Yellow"
+        "n": "Nâu",
+        "b": "Vàng nhạt",
+        "c": "Nâu quế",
+        "g": "Xám",
+        "r": "Xanh lục",
+        "p": "Hồng",
+        "u": "Tím",
+        "e": "Đỏ",
+        "w": "Trắng",
+        "y": "Vàng"
     },
     "bruises": {
-        "t": "Bruises", "f": "No bruises"
+        "t": "Có vết bầm",
+        "f": "Không có vết bầm"
     },
     "odor": {
-        "a": "Almond", "l": "Anise", "c": "Creosote",
-        "y": "Fishy", "f": "Foul", "m": "Musty",
-        "n": "None", "p": "Pungent", "s": "Spicy"
+        "a": "Mùi hạnh nhân",
+        "l": "Mùi hồi",
+        "c": "Mùi hắc ín",
+        "y": "Mùi tanh",
+        "f": "Mùi khó chịu",
+        "m": "Mùi mốc",
+        "n": "Không có mùi",
+        "p": "Mùi hăng",
+        "s": "Mùi cay"
     },
     "gill-attachment": {
-        "a": "Attached", "d": "Descending",
-        "f": "Free", "n": "Notched"
+        "a": "Gắn liền",
+        "d": "Chạy dọc xuống cuống",
+        "f": "Tự do",
+        "n": "Có khía"
     },
     "gill-spacing": {
-        "c": "Close", "w": "Crowded", "d": "Distant"
+        "c": "Sát nhau",
+        "w": "Dày đặc",
+        "d": "Thưa"
     },
     "gill-size": {
-        "b": "Broad", "n": "Narrow"
+        "b": "Rộng",
+        "n": "Hẹp"
     },
     "gill-color": {
-        "k": "Black", "n": "Brown", "b": "Buff",
-        "h": "Chocolate", "g": "Gray", "r": "Green",
-        "o": "Orange", "p": "Pink", "u": "Purple",
-        "e": "Red", "w": "White", "y": "Yellow"
+        "k": "Đen",
+        "n": "Nâu",
+        "b": "Vàng nhạt",
+        "h": "Nâu sô-cô-la",
+        "g": "Xám",
+        "r": "Xanh lục",
+        "o": "Cam",
+        "p": "Hồng",
+        "u": "Tím",
+        "e": "Đỏ",
+        "w": "Trắng",
+        "y": "Vàng"
     },
     "stalk-shape": {
-        "e": "Enlarging", "t": "Tapering"
+        "e": "Phình to về phía gốc",
+        "t": "Thuôn nhỏ về phía gốc"
     },
     "stalk-root": {
-        "b": "Bulbous", "c": "Club", "u": "Cup",
-        "e": "Equal", "z": "Rhizomorphs",
-        "r": "Rooted", "missing": "Missing / Unknown"
+        "b": "Dạng củ",
+        "c": "Dạng chùy",
+        "u": "Dạng cốc",
+        "e": "Đều",
+        "z": "Dạng thân rễ",
+        "r": "Có rễ",
+        "missing": "Không xác định"
     },
     "stalk-surface-above-ring": {
-        "f": "Fibrous", "y": "Scaly",
-        "k": "Silky", "s": "Smooth"
+        "f": "Dạng sợi",
+        "y": "Có vảy",
+        "k": "Mượt như lụa",
+        "s": "Nhẵn"
     },
     "stalk-surface-below-ring": {
-        "f": "Fibrous", "y": "Scaly",
-        "k": "Silky", "s": "Smooth"
+        "f": "Dạng sợi",
+        "y": "Có vảy",
+        "k": "Mượt như lụa",
+        "s": "Nhẵn"
     },
     "stalk-color-above-ring": {
-        "n": "Brown", "b": "Buff", "c": "Cinnamon",
-        "g": "Gray", "o": "Orange", "p": "Pink",
-        "e": "Red", "w": "White", "y": "Yellow"
+        "n": "Nâu",
+        "b": "Vàng nhạt",
+        "c": "Nâu quế",
+        "g": "Xám",
+        "o": "Cam",
+        "p": "Hồng",
+        "e": "Đỏ",
+        "w": "Trắng",
+        "y": "Vàng"
     },
     "stalk-color-below-ring": {
-        "n": "Brown", "b": "Buff", "c": "Cinnamon",
-        "g": "Gray", "o": "Orange", "p": "Pink",
-        "e": "Red", "w": "White", "y": "Yellow"
+        "n": "Nâu",
+        "b": "Vàng nhạt",
+        "c": "Nâu quế",
+        "g": "Xám",
+        "o": "Cam",
+        "p": "Hồng",
+        "e": "Đỏ",
+        "w": "Trắng",
+        "y": "Vàng"
     },
     "veil-type": {
-        "p": "Partial", "u": "Universal"
+        "p": "Màng riêng",
+        "u": "Màng chung"
     },
     "veil-color": {
-        "n": "Brown", "o": "Orange",
-        "w": "White", "y": "Yellow"
+        "n": "Nâu",
+        "o": "Cam",
+        "w": "Trắng",
+        "y": "Vàng"
     },
     "ring-number": {
-        "n": "None", "o": "One", "t": "Two"
+        "n": "Không có vòng",
+        "o": "Một vòng",
+        "t": "Hai vòng"
     },
     "ring-type": {
-        "c": "Cobwebby", "e": "Evanescent",
-        "f": "Flaring", "l": "Large", "n": "None",
-        "p": "Pendant", "s": "Sheathing", "z": "Zone"
+        "c": "Dạng mạng nhện",
+        "e": "Dễ biến mất",
+        "f": "Xòe rộng",
+        "l": "Lớn",
+        "n": "Không có vòng",
+        "p": "Dạng rủ",
+        "s": "Dạng bao bọc",
+        "z": "Dạng vòng đai"
     },
     "spore-print-color": {
-        "k": "Black", "n": "Brown", "b": "Buff",
-        "h": "Chocolate", "r": "Green", "o": "Orange",
-        "u": "Purple", "w": "White", "y": "Yellow"
+        "k": "Đen",
+        "n": "Nâu",
+        "b": "Vàng nhạt",
+        "h": "Nâu sô-cô-la",
+        "r": "Xanh lục",
+        "o": "Cam",
+        "u": "Tím",
+        "w": "Trắng",
+        "y": "Vàng"
     },
     "population": {
-        "a": "Abundant", "c": "Clustered",
-        "n": "Numerous", "s": "Scattered",
-        "v": "Several", "y": "Solitary"
+        "a": "Rất nhiều",
+        "c": "Mọc thành cụm",
+        "n": "Số lượng lớn",
+        "s": "Phân tán",
+        "v": "Một số",
+        "y": "Mọc đơn lẻ"
     },
     "habitat": {
-        "g": "Grasses", "l": "Leaves", "m": "Meadows",
-        "p": "Paths", "u": "Urban", "w": "Waste",
-        "d": "Woods"
+        "g": "Đồng cỏ",
+        "l": "Lá cây",
+        "m": "Đồng cỏ tự nhiên",
+        "p": "Đường mòn",
+        "u": "Khu vực đô thị",
+        "w": "Khu vực chất thải",
+        "d": "Rừng"
     }
 }
 
@@ -193,7 +293,7 @@ with st.form("mushroom_form"):
                 default_index = options[feature].index("missing")
 
             input_values[feature] = st.selectbox(
-                feature,
+                feature_labels[feature],
                 options[feature],
                 format_func=lambda code, f=feature: labels[f][code],
                 index=default_index,
