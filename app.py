@@ -16,7 +16,7 @@ def load_models():
     model_files = {
         "Decision Tree": "mushroom_decision_tree.joblib",
         "Naive Bayes": "mushroom_naive_bayes.joblib",
-        "K Nearest Neighbor": "mushroom_knn(22).joblib"
+        "K Nearest Neighbor": "mushroom_knn.joblib"
     }
 
     for name, filename in model_files.items():
@@ -59,7 +59,6 @@ options = {
     "stalk-surface-below-ring": ["f", "y", "k", "s"],
     "stalk-color-above-ring": ["n", "b", "c", "g", "o", "p", "e", "w", "y"],
     "stalk-color-below-ring": ["n", "b", "c", "g", "o", "p", "e", "w", "y"],
-    "veil-type": ["p", "u"],
     "veil-color": ["n", "o", "w", "y"],
     "ring-number": ["n", "o", "t"],
     "ring-type": ["c", "e", "f", "l", "n", "p", "s", "z"],
@@ -84,7 +83,6 @@ feature_labels = {
     "stalk-surface-below-ring": "Bề mặt cuống phía dưới vòng",
     "stalk-color-above-ring": "Màu sắc cuống phía trên vòng",
     "stalk-color-below-ring": "Màu sắc cuống phía dưới vòng",
-    "veil-type": "Kiểu màng nấm",
     "veil-color": "Màu sắc màng nấm",
     "ring-number": "Số lượng vòng trên cuống",
     "ring-type": "Kiểu vòng trên cuống",
@@ -210,10 +208,6 @@ labels = {
         "e": "Đỏ",
         "w": "Trắng",
         "y": "Vàng"
-    },
-    "veil-type": {
-        "p": "Màng riêng",
-        "u": "Màng chung"
     },
     "veil-color": {
         "n": "Nâu",
